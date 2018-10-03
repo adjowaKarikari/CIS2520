@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Genealogy App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Genealogy App">
+    <meta name="keywords" content="Genealogy App">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+<div class="container demo">
+
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel panel-default" id="panelStatus">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        Status
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="panelFileLog">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                       File Log
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <table class="table" id="tblFileLog">
+                        <thead>
+                        <tr>
+                            <th scope="col">File Name <br>(Click to Download)</th>
+                            <th scope="col">Source</th>
+                            <th scope="col">GEDC Version</th>
+                            <th scope="col">Encoding</th>
+                            <th scope="col">Submitter Name</th>
+                            <th scope="col">Submitter Address</th>
+                            <th scope="col">Number of Individuals</th>
+                            <th scope="col">Number of Families</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table></div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="panelGEDCOM">
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        GEDCOM View
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    <table class="table" id="tblgedCOM">
+                        <thead>
+                        <tr>
+                            <th scope="col">Given Name</th>
+                            <th scope="col">Surname</th>
+                            <th scope="col">Sex</th>
+                            <th scope="col">Family Size</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="panelIndividual">
+            <div class="panel-heading" role="tab" id="headingFour">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        Individual
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <div class="panel-body">
+                    <div class="col-md-4">  <label class="btn btn-primary" for="my-file-selector">
+                        <input id="my-file-selector" type="file" style="display:none"
+                               onchange="$('#upload-file-info').html(this.files[0].name); $('#uploadFile').css('visibility', 'visible'); uploadGedFile(this)" accept=".ged">
+                        Browse
+                    </label>
+                        <span class='label label-info' id="upload-file-info"></span>
+
+                    </div>
+                    <div class="col-md-4">
+                    <select id="ddlcas" class="individualDropdown">
+                        <option>File Names</option>
+                    </select>
+                </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="panelDatabase">
+            <div class="panel-heading" role="tab" id="headingFive">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        Database
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                <div class="panel-body" id="divDatabase">
+                    <div class="row">
+                        <div class="col-md-2"><button onclick="getDBStatus()">Check Database</button></div>
+                        <div class="col-md-10" id="divFile">
+                           </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><button onclick="clearAllData()">Clear All Data</button></div>
+                        <div class="col-md-10" id="divClearAllData">
+                           </div>
+                    </div>
+                    <div class="row">
+
+                        <textarea id="txtQuery" class="txtQuery"></textarea><br>
+                        <button onclick="runQuery()">Execute Query</button><br>
+                        <div class="row" id="queryResult">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" id="authButton">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Connect DB</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default" id="panelStoreFile">
+            <div class="panel-heading" role="tab" id="headingSix">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseFive">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        Store All Files
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <span>Files</span>
+                        <table class="table" id="tblFiles">
+                            <thead>
+                            <tr>
+                                <th scope="col">File Id</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">GEDC Version</th>
+                                <th scope="col">Encoding</th>
+                                <th scope="col">Submitter Name</th>
+                                <th scope="col">Submitter Address</th>
+                                <th scope="col">Number of Individuals</th>
+                                <th scope="col">Number of Families</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <span>Individuals</span>
+                        <table class="table" id="tblIndividual">
+                            <thead>
+                            <tr>
+                                <th scope="col">Individual Id</th>
+                                <th scope="col">Given Name</th>
+                                <th scope="col">Surname</th>
+                                <th scope="col">Sex</th>
+                                <th scope="col">Family Size</th>
+                                <th scope="col">Source File</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- panel-group -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                  <input type="text" id="txtDB" placeholder="DB Name">
+                    <input type="text" id="txtUser" placeholder="Username">
+                    <input type="text" id="txtPass" placeholder="Password">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="connectDB()" data-dismiss="modal">Connect</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div><!-- container -->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
